@@ -135,8 +135,11 @@ output_wrapper interfacemulti(
 
   int dimoff = infostarts.shape[0];
   output_wrapper ow;
+  ow.cse.reserve(dimoff);
+  os.parts.reserve(dimoff);
   for (int i = 0; i < dimoff; i++) {
     std::vector<fj::PseudoJet> particles;
+    particles.reserve(*stopsptr - *startsptr);
     for (int j = *startsptr; j < *stopsptr; j++) {
       particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
       pxptr++;
@@ -832,6 +835,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -840,6 +844,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -943,6 +948,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1038,6 +1044,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1046,6 +1053,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1142,6 +1150,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1150,6 +1159,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1220,6 +1230,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1228,6 +1239,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1298,6 +1310,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1306,6 +1319,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1375,6 +1389,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1383,6 +1398,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1454,6 +1470,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1462,6 +1479,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -1533,6 +1551,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -1541,6 +1560,7 @@ PYBIND11_MODULE(_ext, m) {
           Eptr++;
           }
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -2168,6 +2188,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -2177,6 +2198,7 @@ PYBIND11_MODULE(_ext, m) {
           }
 
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -2284,6 +2306,7 @@ PYBIND11_MODULE(_ext, m) {
         // Don't specify the size if using push_back.
 
         std::vector<fj::PseudoJet> particles;
+        particles.reserve(dimpx);
         for(int j = 0; j < dimpx; j++ ){
           particles.push_back(fj::PseudoJet(*pxptr, *pyptr, *pzptr, *Eptr));
           pxptr++;
@@ -2293,6 +2316,7 @@ PYBIND11_MODULE(_ext, m) {
           }
 
         std::vector<int> indices;
+        indices.reserve(len);
         for(unsigned int i = 0 ; i < len; i++){
           std::unordered_map<double, int> umap;
           auto jets = ow.cse[i]->inclusive_jets();
@@ -2435,6 +2459,7 @@ PYBIND11_MODULE(_ext, m) {
 
         const auto& constituents = ow.parts;
         std::vector<double> taus;
+        taus.reserve( constituents.size()*njets.size() );
 
         for (size_t i = 0; i < constituents.size(); ++i) {
             for(size_t k = 0; k < njets.size(); ++k) {
