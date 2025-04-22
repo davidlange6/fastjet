@@ -1766,6 +1766,24 @@ PYBIND11_MODULE(_ext, m) {
 
         auto sd = std::make_shared<fastjet::contrib::SoftDrop>(beta, symmetry_cut, sym_meas, R0, mu_cut, rec_choice/*, subtractor*/);
 
+        //lets assume at least 2 jets per event to make an initial memory allocation
+        unsigned int jet_tot_len = 2* css.size();
+        jet_groomed_pt.reserve(jet_tot_len);
+        jet_groomed_eta.reserve(jet_tot_len);
+        jet_groomed_phi.reserve(jet_tot_len);
+        jet_groomed_m.reserve(jet_tot_len);
+        jet_groomed_E.reserve(jet_tot_len);
+        jet_groomed_pz.reserve(jet_tot_len);
+        jet_groomed_delta_R.reserve(jet_tot_len);
+        jet_groomed_symmetry.reserve(jet_tot_len);
+        //lets assume at least 2 consts per event to make an initial memory allocation
+        unsigned int consts_tot_len = 2* css.size();
+        nconstituents.reserve(css.size());
+        consts_groomed_px.reserve(consts_tot_len);
+        consts_groomed_py.reserve(consts_tot_len);
+        consts_groomed_pz.reserve(consts_tot_len);
+        consts_groomed_E.reserve(consts_tot_len);
+        
         for (unsigned int i = 0; i < css.size(); i++){  // iterate through events
           auto jets = css[i]->exclusive_jets(n_jets);
           for (unsigned int j = 0; j < jets.size(); j++){
@@ -1895,7 +1913,7 @@ PYBIND11_MODULE(_ext, m) {
           energy_correlator = std::make_shared<fastjet::contrib::EnergyCorrelatorGeneralized>(angles, npoint, beta);} //Using the Generalized class with angles=-1 returns a generic ECF that has been normalized
 
         std::vector<double> ECF_vec;
-
+        ECF_vec.reserve( css.size()*2); 
         for (unsigned int i = 0; i < css.size(); i++){  // iterate through events
           auto jets = css[i]->exclusive_jets(n_jets);
 
@@ -1934,6 +1952,8 @@ PYBIND11_MODULE(_ext, m) {
         auto lund_generator = fastjet::contrib::LundGenerator();
         std::vector<double> Delta_vec;
         std::vector<double> kt_vec;
+        Delta_vec.reserve(2*css.size());
+        kt_vec.reserve(2*css.size());
 
         auto eventoffsets = py::array(py::buffer_info(nullptr, sizeof(int), py::format_descriptor<int>::value, 1, {len+1}, {sizeof(int)}));
         auto bufeventoffsets = eventoffsets.request();
