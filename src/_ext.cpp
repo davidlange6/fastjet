@@ -136,7 +136,7 @@ output_wrapper interfacemulti(
   int dimoff = infostarts.shape[0];
   output_wrapper ow;
   ow.cse.reserve(dimoff);
-  os.parts.reserve(dimoff);
+  ow.parts.reserve(dimoff);
   for (int i = 0; i < dimoff; i++) {
     std::vector<fj::PseudoJet> particles;
     particles.reserve(*stopsptr - *startsptr);
