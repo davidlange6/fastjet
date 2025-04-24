@@ -33,6 +33,8 @@ using namespace pybind11::literals;
 class MyRecombiner : public fastjet::JetDefinition::Recombiner {
 public:
   MyRecombiner() {;}
+  std::string description() {"My cool recombiner";}
+
   void recombine(const fastjet::PseudoJet& pa,
                                      const fastjet::PseudoJet& pb,
                                      fastjet::PseudoJet& pab) const {
