@@ -29,6 +29,21 @@ namespace fj = fastjet;
 namespace py = pybind11;
 using namespace pybind11::literals;
 
+//DL hack for testing
+class MyRecombiner : public fastjet::JetDefinition::Recombiner {
+public:
+  MyRecombiner() {;}
+  void recombine(const fastjet::PseudoJet& pa,
+                                     const fastjet::PseudoJet& pb,
+                                     fastjet::PseudoJet& pab) const {
+    double pabMag = sqrt((pa.px() + pb.px()) * (pa.px() + pb.px()) + (pa.py() + pb.py()) * (pa.py() + pb.py()) +
+                         (pa.pz() + pb.pz()) * (pa.pz() + pb.pz()));
+    double E0scale = (pa.E() + pb.E()) / pabMag;
+    pab.reset(
+              (pa.px() + pb.px()) * E0scale, (pa.py() + pb.py()) * E0scale, (pa.pz() + pb.pz()) * E0scale, pa.E() + pb.E());
+  }
+};
+
 // adapted from
 // https://github.com/cms-svj/SVJProduction/blob/Run3/interface/NjettinessHelper.h
 namespace njettiness {
@@ -2509,4 +2524,6 @@ PYBIND11_MODULE(_ext, m) {
            "Create a ClusterSequence, starting from the supplied set of "
            "PseudoJets and clustering them with jet definition specified by "
            "jet_definition (which also specifies the clustering strategy)");
+  py::class_<MyRecombiner>(m, "MyRecombiner")
+      .def(py::init());
 }
