@@ -43,8 +43,10 @@ public:
     double E0scale = (pa.E() + pb.E()) / pabMag;
     pab.reset(
               (pa.px() + pb.px()) * E0scale, (pa.py() + pb.py()) * E0scale, (pa.pz() + pb.pz()) * E0scale, pa.E() + pb.E());
+    
   }
 };
+MyRecombiner *recombiner_instance() {return new MyRecombiner();}
 
 // adapted from
 // https://github.com/cms-svj/SVJProduction/blob/Run3/interface/NjettinessHelper.h
@@ -182,6 +184,8 @@ PYBIND11_MODULE(_ext, m) {
   using namespace fastjet;
   m.def("interfacemulti", &interfacemulti,
         py::return_value_policy::take_ownership);
+  m.def("recombiner", &recombiner_instance, py::return_value_policy::take_ownership);
+
   /// Jet algorithm definitions
 
   py::class_<output_wrapper>(m, "output_wrapper")
@@ -2528,4 +2532,5 @@ PYBIND11_MODULE(_ext, m) {
            "jet_definition (which also specifies the clustering strategy)");
   py::class_<MyRecombiner>(m, "MyRecombiner")
       .def(py::init());
+      //.def("instance", &MyRecombiner::instance);
 }
