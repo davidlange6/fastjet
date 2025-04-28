@@ -29,25 +29,6 @@ namespace fj = fastjet;
 namespace py = pybind11;
 using namespace pybind11::literals;
 
-//DL hack for testing
-class MyRecombiner : public fastjet::JetDefinition::Recombiner {
-public:
-  MyRecombiner() {;}
-  std::string description() const override {return "My cool recombiner";}
-
-  void recombine(const fastjet::PseudoJet& pa,
-                                     const fastjet::PseudoJet& pb,
-                                     fastjet::PseudoJet& pab) const {
-    double pabMag = sqrt((pa.px() + pb.px()) * (pa.px() + pb.px()) + (pa.py() + pb.py()) * (pa.py() + pb.py()) +
-                         (pa.pz() + pb.pz()) * (pa.pz() + pb.pz()));
-    double E0scale = (pa.E() + pb.E()) / pabMag;
-    pab.reset(
-              (pa.px() + pb.px()) * E0scale, (pa.py() + pb.py()) * E0scale, (pa.pz() + pb.pz()) * E0scale, pa.E() + pb.E());
-    
-  }
-};
-MyRecombiner *recombiner_instance() {return new MyRecombiner();}
-
 // adapted from
 // https://github.com/cms-svj/SVJProduction/blob/Run3/interface/NjettinessHelper.h
 namespace njettiness {
@@ -184,7 +165,7 @@ PYBIND11_MODULE(_ext, m) {
   using namespace fastjet;
   m.def("interfacemulti", &interfacemulti,
         py::return_value_policy::take_ownership);
-  m.def("recombiner", &recombiner_instance, py::return_value_policy::take_ownership);
+  //m.def("set_recombiner", )  
 
   /// Jet algorithm definitions
 
@@ -2530,7 +2511,11 @@ PYBIND11_MODULE(_ext, m) {
            "Create a ClusterSequence, starting from the supplied set of "
            "PseudoJets and clustering them with jet definition specified by "
            "jet_definition (which also specifies the clustering strategy)");
-  py::class_<MyRecombiner>(m, "MyRecombiner")
-      .def(py::init());
+  
+  py::module
+//DL hack for testing
+//class MyRecombiner : public fastjet::JetDefinition::Recombiner {
+//py::class_<MyRecombiner>(m, "MyRecombiner")
+//      .def(py::init());
       //.def("instance", &MyRecombiner::instance);
 }
